@@ -1,2 +1,5 @@
 pandas
 sklearn
+numpy
+seaborn
+plotly
