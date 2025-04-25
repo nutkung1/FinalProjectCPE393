@@ -3,3 +3,5 @@ sklearn
 numpy
 seaborn
 tensorflow>=2.12.0,<2.13.0
+scikit-optimize>=0.10.2,<1.0.0
+xgboost>=3.0.0,<4.0.0
