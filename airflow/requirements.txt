@@ -1,5 +1,5 @@
-mlflow
-scikit-learn
-pandas
-xgboost
-numpy
+mlflow==2.4.0
+scikit-learn==1.2.2
+pandas==2.0.3
+xgboost==1.7.4
+numpy==1.25.0

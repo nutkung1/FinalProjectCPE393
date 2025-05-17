@@ -6,3 +6,4 @@
 /logs
 /dags/__pycache__
 /airflow/dags/__pycache__
+.env
