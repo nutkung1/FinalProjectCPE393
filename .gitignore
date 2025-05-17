@@ -7,3 +7,8 @@
 /dags/__pycache__
 /airflow/dags/__pycache__
 .env
+__pycache__
+/.streamlit
+global-bundle.pem
+/plugins
+/airflow/dags/global-bundle.pem

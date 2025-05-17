@@ -35,6 +35,8 @@ services:
       - ./mlflow/artifacts:/mlflow/artifacts
     ports:
       - '8080:8080'
+    env_file:
+      - .env
     entrypoint: >
       bash -c "
         pip install mlflow xgboost scikit-learn pandas joblib psycopg2-binary &&
@@ -56,6 +58,8 @@ services:
       - ./data:/data
       - ./ml_model:/ml_model
       - ./mlflow/artifacts:/mlflow/artifacts
+    env_file:
+      - .env
     entrypoint: >
       bash -c "
         pip install mlflow xgboost scikit-learn pandas joblib psycopg2-binary &&
