@@ -71,7 +71,6 @@ def retrain_and_compare_model():
     train_path = "/data/test_ev_data.csv"
     test_path = "/data/test.csv"
     model_output_path = "/ml_model/best_model.pkl"
-
     mlflow.set_tracking_uri("http://mlflow:5000")
     mlflow.set_experiment("xgboost_model_selection_v2")
 

@@ -488,21 +488,3 @@ elif selected3 == "Regression":
             except Exception as e:
                 st.error(f"Regression prediction error: {e}")
                 st.error("Please check your connection to the model server.")
-
-    # Dataset information
-    with st.expander("About this model"):
-        st.markdown(
-            """
-        ### Electric Vehicle Range Prediction Model
-        
-        This model predicts the electric range (in miles) of a vehicle based on its specifications. The model was trained using XGBoost on a dataset of electric vehicles registered in the United States.
-        
-        **Key features used for prediction:**
-        - Model year
-        - Vehicle make and model
-        - Base MSRP (Manufacturer's Suggested Retail Price)
-        - Vehicle type (BEV or PHEV)
-        
-        The model has been optimized for vehicles released between 2010-2023 and may be less accurate for future models with new battery technologies.
-        """
-        )
