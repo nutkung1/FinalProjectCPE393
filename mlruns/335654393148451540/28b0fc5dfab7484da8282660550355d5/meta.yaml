@@ -1,0 +1,15 @@
+artifact_uri: /mlflow/mlruns/335654393148451540/28b0fc5dfab7484da8282660550355d5/artifacts
+end_time: 1747426749692
+entry_point_name: ''
+experiment_id: '335654393148451540'
+lifecycle_stage: active
+run_id: 28b0fc5dfab7484da8282660550355d5
+run_name: xgboost_auto_retrain
+run_uuid: 28b0fc5dfab7484da8282660550355d5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747426749631
+status: 4
+tags: []
+user_id: airflow
