@@ -4,3 +4,5 @@
 /img/NISSAN_LEAF/.DS_Store
 /img/.DS_Store
 /logs
+/dags/__pycache__
+/airflow/dags/__pycache__
