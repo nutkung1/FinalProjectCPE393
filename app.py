@@ -400,10 +400,6 @@ elif selected3 == "Regression":
                     "electric_vehicle_type": ev_type,
                 }
 
-                # DEBUG - Show payload
-                if st.checkbox("Show API request data"):
-                    st.json(data)
-
                 # Send data to API
                 response = requests.post(
                     f"{st.session_state['API_URL']}/predict_range",
@@ -414,10 +410,6 @@ elif selected3 == "Regression":
 
                 if response.status_code == 200:
                     result = response.json()
-
-                    # DEBUG - Show raw API response
-                    if st.checkbox("Show API response"):
-                        st.json(result)
 
                     # Display prediction results
                     st.subheader("Prediction Results")
