@@ -317,22 +317,42 @@ elif selected3 == "Regression":
             model_year = st.number_input(
                 "Model Year", min_value=2010, max_value=2030, value=2023
             )
+            # For make, ensure the values match what the model was trained on
             make = st.selectbox(
                 "Make",
                 options=[
-                    "Tesla",
-                    "Nissan",
-                    "Chevrolet",
+                    "TESLA",
+                    "NISSAN",
+                    "CHEVROLET",
                     "BMW",
-                    "Ford",
-                    "Toyota",
-                    "Honda",
-                    "Volkswagen",
-                    "Audi",
-                    "Other",
+                    "FORD",
+                    "TOYOTA",
+                    "HONDA",
+                    "VOLKSWAGEN",
+                    "AUDI",
+                    "KIA",
+                    "HYUNDAI",
+                    "VOLVO",
+                    "MERCEDES-BENZ",
+                    "PORSCHE",
+                    "OTHER",
                 ],
             )
-            model = st.text_input("Model", value="Model 3")
+            # For model field, we'll add some common options
+            common_models = {
+                "TESLA": ["MODEL 3", "MODEL S", "MODEL X", "MODEL Y"],
+                "NISSAN": ["LEAF", "ARIYA"],
+                "CHEVROLET": ["BOLT EV", "BOLT EUV"],
+                # Add more as needed
+            }
+
+            if make in common_models:
+                model = st.selectbox(
+                    "Model", options=common_models.get(make, ["Model 3"])
+                )
+            else:
+                model = st.text_input("Model", value="Model 3")
+
             base_msrp = st.number_input(
                 "Base MSRP ($)", min_value=10000, max_value=200000, value=45000
             )
@@ -368,14 +388,14 @@ elif selected3 == "Regression":
     if submitted:
         with st.spinner("Predicting electric range..."):
             try:
-                # Prepare data for API
+                # Add vehicle_id with the default value to match the API expectation
                 data = {
                     "model_year": model_year,
                     "make": make,
                     "model": model,
                     "base_msrp": base_msrp,
                     "clean_alternative_fuel_vehicle_eligibility": cafv_eligibility,
-                    "vehicle_id": vehicle_id,
+                    "vehicle_id": "unknown",  # Add this to satisfy the API requirement
                     "cafv_type": cafv_type,
                     "electric_vehicle_type": ev_type,
                 }
