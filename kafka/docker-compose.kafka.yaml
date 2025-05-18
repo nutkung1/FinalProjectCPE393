@@ -1,0 +1,33 @@
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  producer:
+    build: ./producer
+    depends_on:
+      - kafka
+    env_file:
+      - ./.env
+
+  consumer:
+    build: ./consumer
+    depends_on:
+      - producer  
+    env_file:
+      - ./.env
+    command: sh -c "sleep 15 && python kafkaconsumer.py"  # delay before running wait for producer send to topic
