@@ -255,7 +255,6 @@ async def predict_regression(request: RegressionRequest):
         # Make prediction
         prediction = regression_model.predict(input_encoded)[0]
         print(f"Predicted range: {prediction}")
-        # Calculate confidence interval (10% range)
         lower_bound = max(0, prediction * 0.9)
         upper_bound = prediction * 1.1
 
