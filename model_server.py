@@ -38,7 +38,10 @@ class RegressionRequest(BaseModel):
     clean_alternative_fuel_vehicle_eligibility: str = Field(
         ..., description="Clean alternative fuel eligibility"
     )
-    vehicle_id: str = Field(..., description="Vehicle ID")
+    # Make vehicle_id optional with default value
+    vehicle_id: str = Field(
+        "unknown", description="Vehicle ID"
+    )  # Changed from required to optional
     cafv_type: str = Field(..., description="CAFV type")
     electric_vehicle_type: str = Field(..., description="Type of electric vehicle")
 
@@ -252,7 +255,6 @@ async def predict_regression(request: RegressionRequest):
         # Make prediction
         prediction = regression_model.predict(input_encoded)[0]
         print(f"Predicted range: {prediction}")
-        # Calculate simple confidence interval (±10% for demonstration)
         lower_bound = max(0, prediction * 0.9)
         upper_bound = prediction * 1.1
 
@@ -265,6 +267,9 @@ async def predict_regression(request: RegressionRequest):
         )
 
     except Exception as e:
+        import traceback
+
+        print(traceback.format_exc())
         raise HTTPException(
             status_code=500, detail=f"Error processing regression request: {str(e)}"
         )

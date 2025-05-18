@@ -366,7 +366,7 @@ elif selected3 == "Regression":
                     "Unknown",
                 ],
             )
-            vehicle_id = st.text_input("Vehicle ID", value="12345")
+            # REMOVED vehicle_id field as it's dropped during model training
             cafv_type = st.selectbox(
                 "CAFV Type",
                 options=[
