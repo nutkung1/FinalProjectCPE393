@@ -38,7 +38,10 @@ class RegressionRequest(BaseModel):
     clean_alternative_fuel_vehicle_eligibility: str = Field(
         ..., description="Clean alternative fuel eligibility"
     )
-    vehicle_id: str = Field(..., description="Vehicle ID")
+    # Make vehicle_id optional with default value
+    vehicle_id: str = Field(
+        "unknown", description="Vehicle ID"
+    )  # Changed from required to optional
     cafv_type: str = Field(..., description="CAFV type")
     electric_vehicle_type: str = Field(..., description="Type of electric vehicle")
 
@@ -204,47 +207,55 @@ async def predict_regression(request: RegressionRequest):
         raise HTTPException(status_code=503, detail="Regression model not loaded")
 
     try:
-        # Convert request to DataFrame
-        data = {
-            "Model Year": [request.model_year],
-            "Make": [request.make],
-            "Model": [request.model],
-            "Base MSRP": [request.base_msrp],
-            "Clean Alternative Fuel Vehicle Eligibility": [
+        # Create input DataFrame from request
+        input_data = {
+            "model_year": [request.model_year],
+            "make": [request.make],
+            "model": [request.model],
+            "base_msrp": [request.base_msrp],
+            "clean_alternative_fuel_vehicle_eligibility": [
                 request.clean_alternative_fuel_vehicle_eligibility
             ],
-            "Vehicle ID": [request.vehicle_id],
-            "CAFV Type": [request.cafv_type],
-            "Electric Vehicle Type": [request.electric_vehicle_type],
+            "cafv_type": [request.cafv_type],
+            "electric_vehicle_type": [request.electric_vehicle_type],
         }
 
-        # Create DataFrame
-        input_df = pd.DataFrame(data)
+        # Create DataFrame (without vehicle_id)
+        input_df = pd.DataFrame(input_data)
 
-        # One-hot encode categorical variables
-        categorical_columns = [
-            "Make",
-            "Model",
-            "Clean Alternative Fuel Vehicle Eligibility",
-            "CAFV Type",
-            "Electric Vehicle Type",
+        print(f"Raw input features: {input_df.to_dict('records')}")
+
+        # Convert all column names to lowercase for consistency
+        input_df.columns = input_df.columns.str.lower()
+
+        # Identify categorical columns
+        categorical_cols = [
+            col for col in input_df.columns if input_df[col].dtype == "object"
         ]
-        input_encoded = pd.get_dummies(input_df, columns=categorical_columns)
 
-        # Ensure all columns from training are present
-        missing_cols = set(regression_model.get_booster().feature_names) - set(
-            input_encoded.columns
+        # Apply one-hot encoding
+        input_encoded = pd.get_dummies(
+            input_df, columns=categorical_cols, drop_first=True
         )
-        for col in missing_cols:
-            input_encoded[col] = 0
 
-        # Reorder columns to match training data
-        input_encoded = input_encoded[regression_model.get_booster().feature_names]
+        # Get the feature names the model expects
+        expected_features = regression_model.get_booster().feature_names
+        print(f"Model expects {len(expected_features)} features")
+
+        # Add missing columns with zeros
+        for feature in expected_features:
+            if feature not in input_encoded.columns:
+                input_encoded[feature] = 0
+
+        # Keep only columns the model knows about
+        input_encoded = input_encoded[expected_features]
+
+        print(f"Processed features shape: {input_encoded.shape}")
 
         # Make prediction
         prediction = regression_model.predict(input_encoded)[0]
-
-        # Calculate simple confidence interval (±10% for demonstration)
+        print(f"Predicted range: {prediction}")
+        # Calculate confidence interval (10% range)
         lower_bound = max(0, prediction * 0.9)
         upper_bound = prediction * 1.1
 
@@ -257,6 +268,9 @@ async def predict_regression(request: RegressionRequest):
         )
 
     except Exception as e:
+        import traceback
+
+        print(traceback.format_exc())
         raise HTTPException(
             status_code=500, detail=f"Error processing regression request: {str(e)}"
         )
