@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'airflow']
+      interval: 5s
+      retries: 5
+    ports:
+      - '5432:5432'
+
+  airflow-webserver:
+    build:
+      context: ./airflow
+    image: custom-airflow:2.8.1
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+      PYTHONPATH: /opt/airflow
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./data:/data
+      - ./ml_model:/ml_model
+      - ./mlflow/artifacts:/mlflow/artifacts
+    ports:
+      - '8080:8080'
+    env_file:
+      - .env
+    entrypoint: >
+      bash -c "
+        pip install mlflow xgboost scikit-learn pandas joblib psycopg2-binary &&
+        airflow db upgrade &&
+        airflow users create --username admin --password admin --firstname Air --lastname Flow --role Admin --email admin@example.com &&
+        airflow webserver"
+
+  airflow-scheduler:
+    image: custom-airflow:2.8.1
+    depends_on:
+      - airflow-webserver
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY}
+      PYTHONPATH: /opt/airflow
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./data:/data
+      - ./ml_model:/ml_model
+      - ./mlflow/artifacts:/mlflow/artifacts
+    env_file:
+      - .env
+    entrypoint: >
+      bash -c "
+        pip install mlflow xgboost scikit-learn pandas joblib psycopg2-binary &&
+        airflow db upgrade &&
+        airflow scheduler"
+
+  mlflow:
+    image: python:3.9
+    working_dir: /mlflow
+    depends_on:
+      - postgres
+    volumes:
+      - ./mlflow/artifacts:/mlflow/artifacts
+      - ./data:/data
+      - ./ml_model:/ml_model
+    environment:
+      - MLFLOW_ARTIFACT_ROOT=/mlflow/artifacts
+    ports:
+      - '5000:5000'
+    command: >
+      bash -c "
+        pip install mlflow psycopg2-binary pandas scikit-learn &&
+        mlflow server --host 0.0.0.0 --port 5000 
+        --backend-store-uri postgresql+psycopg2://airflow:airflow@postgres/airflow 
+        --default-artifact-root /mlflow/artifacts"
+
+volumes:
+  postgres_db:
