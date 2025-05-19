@@ -38,10 +38,6 @@ class RegressionRequest(BaseModel):
     clean_alternative_fuel_vehicle_eligibility: str = Field(
         ..., description="Clean alternative fuel eligibility"
     )
-    # Make vehicle_id optional with default value
-    vehicle_id: str = Field(
-        "unknown", description="Vehicle ID"
-    )  # Changed from required to optional
     cafv_type: str = Field(..., description="CAFV type")
     electric_vehicle_type: str = Field(..., description="Type of electric vehicle")
 
@@ -199,6 +195,50 @@ async def predict_classification(request: ImageRequest):
         raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")
 
 
+# Add these mappings at the global level, after your MODEL_NAME_MAPPING
+
+# Mapping dictionaries for regression model
+make_mapping = {
+    "TESLA": 39,
+    "NISSAN": 13,
+    "CHEVROLET": 8,
+    "BMW": 5,
+    "FORD": 19,
+    "TOYOTA": 41,
+    "HONDA": 27,
+    "VOLKSWAGEN": 44,
+    "AUDI": 2,
+    "KIA": 29,
+    "HYUNDAI": 28,
+    "VOLVO": 43,
+    "MERCEDES-BENZ": 32,
+    "PORSCHE": 35,
+    "OTHER": 0,
+}
+
+model_mapping = {
+    "MODEL 3": 98,
+    "MODEL S": 99,
+    "MODEL X": 100,
+    "MODEL Y": 166,
+    "LEAF": 101,
+    "BOLT EV": 21,
+}
+
+cafv_mapping = {
+    "Clean Alternative Fuel Vehicle Eligible": 1,
+    "Not eligible": 0,
+    "Unknown": 2,
+}
+
+ev_type_mapping = {
+    "Battery Electric Vehicle": 0,
+    "Battery Electric Vehicle (BEV)": 0,
+    "Plug-in Hybrid Electric Vehicle": 1,
+    "Plug-in Hybrid Electric Vehicle (PHEV)": 1,
+}
+
+
 @app.post("/predict_range", response_model=RegressionResponse)
 async def predict_regression(request: RegressionRequest):
     global regression_model
@@ -207,54 +247,39 @@ async def predict_regression(request: RegressionRequest):
         raise HTTPException(status_code=503, detail="Regression model not loaded")
 
     try:
-        # Create input DataFrame from request
-        input_data = {
-            "model_year": [request.model_year],
-            "make": [request.make],
-            "model": [request.model],
-            "base_msrp": [request.base_msrp],
-            "clean_alternative_fuel_vehicle_eligibility": [
-                request.clean_alternative_fuel_vehicle_eligibility
-            ],
-            "cafv_type": [request.cafv_type],
-            "electric_vehicle_type": [request.electric_vehicle_type],
-        }
-
-        # Create DataFrame (without vehicle_id)
-        input_df = pd.DataFrame(input_data)
-
-        print(f"Raw input features: {input_df.to_dict('records')}")
-
-        # Convert all column names to lowercase for consistency
-        input_df.columns = input_df.columns.str.lower()
-
-        # Identify categorical columns
-        categorical_cols = [
-            col for col in input_df.columns if input_df[col].dtype == "object"
-        ]
-
-        # Apply one-hot encoding
-        input_encoded = pd.get_dummies(
-            input_df, columns=categorical_cols, drop_first=True
+        # Map text values to encoded values (keep your existing mappings)
+        make_encoded = make_mapping.get(request.make.upper(), 0)
+        model_encoded = model_mapping.get(request.model.upper(), 0)
+        cafv_encoded = cafv_mapping.get(
+            request.clean_alternative_fuel_vehicle_eligibility, 0
         )
+        ev_type_encoded = ev_type_mapping.get(request.electric_vehicle_type, 0)
 
-        # Get the feature names the model expects
-        expected_features = regression_model.get_booster().feature_names
-        print(f"Model expects {len(expected_features)} features")
+        print(f"Original make: {request.make} -> Encoded: {make_encoded}")
+        print(f"Original model: {request.model} -> Encoded: {model_encoded}")
 
-        # Add missing columns with zeros
-        for feature in expected_features:
-            if feature not in input_encoded.columns:
-                input_encoded[feature] = 0
+        # Get the EXACT feature names in the EXACT order from the model
+        feature_names = regression_model.get_booster().feature_names
+        print(f"Model expects these feature names: {feature_names}")
 
-        # Keep only columns the model knows about
-        input_encoded = input_encoded[expected_features]
+        # Create an empty DataFrame with the right columns in the right order
+        input_df = pd.DataFrame(columns=feature_names)
+        input_df.loc[0] = 0  # Initialize with zeros
 
-        print(f"Processed features shape: {input_encoded.shape}")
+        # Now assign values to the right columns
+        input_df.at[0, "state"] = 0  # Default value
+        input_df.at[0, "model_year"] = request.model_year
+        input_df.at[0, "make"] = make_encoded
+        input_df.at[0, "model"] = model_encoded
+        input_df.at[0, "base_msrp"] = request.base_msrp
+        input_df.at[0, "cafv_eligibility"] = cafv_encoded
+        input_df.at[0, "ev_type"] = ev_type_encoded
+        input_df.at[0, "census_tract"] = 53000000.0  # Default value
+
+        # Double-check we have the right feature order
+        print(f"Input features: {input_df.columns.tolist()}")
 
         # Make prediction
-        prediction = regression_model.predict(input_encoded)[0]
-        print(f"Predicted range: {prediction}")
         lower_bound = max(0, prediction * 0.9)
         upper_bound = prediction * 1.1
 
@@ -265,7 +290,6 @@ async def predict_regression(request: RegressionRequest):
                 "upper": float(upper_bound),
             },
         )
-
     except Exception as e:
         import traceback
 

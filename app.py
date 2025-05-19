@@ -366,20 +366,19 @@ elif selected3 == "Regression":
                     "Unknown",
                 ],
             )
-            # REMOVED vehicle_id field as it's dropped during model training
             cafv_type = st.selectbox(
                 "CAFV Type",
                 options=[
-                    "Battery Electric Vehicle (BEV)",
-                    "Plug-in Hybrid Electric Vehicle (PHEV)",
+                    "Battery Electric Vehicle",
+                    "Plug-in Hybrid Electric Vehicle",
                     "Not Applicable",
                 ],
             )
             ev_type = st.selectbox(
                 "Electric Vehicle Type",
                 options=[
-                    "Battery Electric Vehicle (BEV)",
-                    "Plug-in Hybrid Electric Vehicle (PHEV)",
+                    "Battery Electric Vehicle",
+                    "Plug-in Hybrid Electric Vehicle",
                 ],
             )
 
@@ -395,7 +394,7 @@ elif selected3 == "Regression":
                     "model": model,
                     "base_msrp": base_msrp,
                     "clean_alternative_fuel_vehicle_eligibility": cafv_eligibility,
-                    "vehicle_id": "unknown",  # Add this to satisfy the API requirement
+                    "vehicle_id": "unknown",  # Add this line with a default value
                     "cafv_type": cafv_type,
                     "electric_vehicle_type": ev_type,
                 }
