@@ -38,8 +38,6 @@ class RegressionRequest(BaseModel):
     clean_alternative_fuel_vehicle_eligibility: str = Field(
         ..., description="Clean alternative fuel eligibility"
     )
-    # Change this line to make it optional with a default value:
-    vehicle_id: str = Field(default="unknown", description="Vehicle ID")
     cafv_type: str = Field(..., description="CAFV type")
     electric_vehicle_type: str = Field(..., description="Type of electric vehicle")
 
@@ -282,10 +280,6 @@ async def predict_regression(request: RegressionRequest):
         print(f"Input features: {input_df.columns.tolist()}")
 
         # Make prediction
-        prediction = regression_model.predict(input_df)[0]
-        print(f"Prediction successful: {prediction}")
-
-        # Calculate confidence interval
         lower_bound = max(0, prediction * 0.9)
         upper_bound = prediction * 1.1
 
