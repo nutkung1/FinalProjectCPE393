@@ -1,0 +1,15 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy model files and code
+COPY model_server.py .
+COPY ml_model/ ./ml_model/
+COPY data/ ./data/
+
+EXPOSE 8000
+
+CMD ["python", "model_server.py"]

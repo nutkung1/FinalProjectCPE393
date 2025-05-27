@@ -4,3 +4,14 @@ pandas==2.2.3
 numpy==1.26.4
 requests==2.32.3
 Pillow==11.1.0
+fastapi
+uvicorn
+torch
+pillow
+pydantic
+transformers
+scikit-learn
+xgboost
+python-dotenv
+mlflow
+psycopg2-binary
