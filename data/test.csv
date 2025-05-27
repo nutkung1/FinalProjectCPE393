@@ -1,4 +1,4 @@
-VIN (1-10),County,City,State,Postal Code,Model Year,Make,Model,Electric Vehicle Type,Clean Alternative Fuel Vehicle (CAFV) Eligibility,Electric Range,Base MSRP,Legislative District,DOL Vehicle ID,Vehicle Location,Electric Utility,2020 Census Tract
+vin,county,city,state,postal_code,model_year,make,model,ev_type,cafv_eligibility,electric_range,base_msrp,legislative_district,dol_vehicle_id,vehicle_location,electric_utility,census_tract
 5250,16,351,0,98058.0,2021,39,100,0,1,0.0,0.0,11.0,180153676,248,73,53033031913.0
 3112,33,298,0,98502.0,2024,13,101,0,1,0.0,0.0,22.0,272276910,501,72,53067012001.0
 12426,16,377,0,98122.0,2016,44,166,1,2,13.0,0.0,37.0,185346143,320,57,53033007700.0

@@ -1,0 +1,6 @@
+artifact_location: /mlflow/mlruns/335654393148451540
+creation_time: 1747426682696
+experiment_id: '335654393148451540'
+last_update_time: 1747426682696
+lifecycle_stage: active
+name: xgboost_model_selection_v2
