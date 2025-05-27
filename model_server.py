@@ -53,6 +53,9 @@ class RegressionResponse(BaseModel):
 async def load_models():
     global feature_extractor, classification_model, regression_model, ev_data
 
+    feature_extractor = AutoImageProcessor.from_pretrained(
+        "dreamypancake/fine_tune_Car_ConvNeXTv2"
+    )
     # Load EV CSV data
     try:
         csv_path = os.path.join(
@@ -67,9 +70,6 @@ async def load_models():
 
     # Load classification model
     try:
-        feature_extractor = AutoImageProcessor.from_pretrained(
-            "dreamypancake/fine_tune_Car_ConvNeXTv2"
-        )
         classification_model = AutoModelForImageClassification.from_pretrained(
             "dreamypancake/fine_tune_Car_ConvNeXTv2"
         )
@@ -99,7 +99,7 @@ MODEL_NAME_MAPPING = {
 @app.post("/predict", response_model=PredictionResponse)
 async def predict_classification(request: ImageRequest):
     global feature_extractor, classification_model, ev_data
-
+    inputs = feature_extractor(images=image, return_tensors="pt")
     if classification_model is None:
         raise HTTPException(status_code=503, detail="Classification model not loaded")
 
@@ -107,9 +107,6 @@ async def predict_classification(request: ImageRequest):
         # Decode the base64 image
         image_bytes = base64.b64decode(request.image_base64)
         image = Image.open(BytesIO(image_bytes)).convert("RGB")
-
-        # Process the image
-        inputs = feature_extractor(images=image, return_tensors="pt")
 
         with torch.no_grad():
             outputs = classification_model(**inputs)
