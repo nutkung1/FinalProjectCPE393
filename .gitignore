@@ -12,3 +12,6 @@ __pycache__
 global-bundle.pem
 /plugins
 /airflow/dags/global-bundle.pem
+.pytest_cache
+coverage.xml
+.coverage

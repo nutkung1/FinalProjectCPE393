@@ -38,6 +38,8 @@ class RegressionRequest(BaseModel):
     clean_alternative_fuel_vehicle_eligibility: str = Field(
         ..., description="Clean alternative fuel eligibility"
     )
+    # Change this line to make it optional with a default value:
+    vehicle_id: str = Field(default="unknown", description="Vehicle ID")
     cafv_type: str = Field(..., description="CAFV type")
     electric_vehicle_type: str = Field(..., description="Type of electric vehicle")
 
@@ -51,6 +53,9 @@ class RegressionResponse(BaseModel):
 async def load_models():
     global feature_extractor, classification_model, regression_model, ev_data
 
+    feature_extractor = AutoImageProcessor.from_pretrained(
+        "dreamypancake/fine_tune_Car_ConvNeXTv2"
+    )
     # Load EV CSV data
     try:
         csv_path = os.path.join(
@@ -65,9 +70,6 @@ async def load_models():
 
     # Load classification model
     try:
-        feature_extractor = AutoImageProcessor.from_pretrained(
-            "dreamypancake/fine_tune_Car_ConvNeXTv2"
-        )
         classification_model = AutoModelForImageClassification.from_pretrained(
             "dreamypancake/fine_tune_Car_ConvNeXTv2"
         )
@@ -96,8 +98,6 @@ MODEL_NAME_MAPPING = {
 
 @app.post("/predict", response_model=PredictionResponse)
 async def predict_classification(request: ImageRequest):
-    global feature_extractor, classification_model, ev_data
-
     if classification_model is None:
         raise HTTPException(status_code=503, detail="Classification model not loaded")
 
@@ -106,7 +106,7 @@ async def predict_classification(request: ImageRequest):
         image_bytes = base64.b64decode(request.image_base64)
         image = Image.open(BytesIO(image_bytes)).convert("RGB")
 
-        # Process the image
+        # Use feature_extractor after image is defined
         inputs = feature_extractor(images=image, return_tensors="pt")
 
         with torch.no_grad():
@@ -241,8 +241,6 @@ ev_type_mapping = {
 
 @app.post("/predict_range", response_model=RegressionResponse)
 async def predict_regression(request: RegressionRequest):
-    global regression_model
-
     if regression_model is None:
         raise HTTPException(status_code=503, detail="Regression model not loaded")
 
@@ -276,10 +274,11 @@ async def predict_regression(request: RegressionRequest):
         input_df.at[0, "ev_type"] = ev_type_encoded
         input_df.at[0, "census_tract"] = 53000000.0  # Default value
 
-        # Double-check we have the right feature order
         print(f"Input features: {input_df.columns.tolist()}")
 
-        # Make prediction
+        prediction = regression_model.predict(input_df)[0]
+        print(f"Prediction successful: {prediction}")
+
         lower_bound = max(0, prediction * 0.9)
         upper_bound = prediction * 1.1
 
