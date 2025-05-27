@@ -18,4 +18,4 @@ update-branch:
 	git config --global user.email $(USER_EMAIL)
 	git add report.md
 	git commit -am "Update with new results"
-	git push origin HEAD:update
+	git push origin HEAD:refs/heads/update
