@@ -15,3 +15,6 @@ xgboost
 python-dotenv
 mlflow
 psycopg2-binary
+httpx
+pytest
+pytest-cov
