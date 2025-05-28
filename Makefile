@@ -16,6 +16,7 @@ eval:
 update-branch:
 	git config --global user.name $(USER_NAME)
 	git config --global user.email $(USER_EMAIL)
+	git pull origin update
 	git add report.md
 	git commit -am "Update with new results"
 	git push origin HEAD:refs/heads/update
