@@ -178,13 +178,3 @@ Monitoring: Alerts if anything goes wrong
 Security: Protects user data and prevents attacks
 
 Backup: Regular data backups for safety
-# 🤝 Contributing
-Want to help improve the project?
-
-Fork the repository
-
-Make your improvements
-
-Test everything works
-
-Submit a pull request
