@@ -10,7 +10,6 @@ eval:
 	echo '```' >> report.md
 	cat ./Results/metrics.txt >> report.md
 	echo '```' >> report.md
-	
 	cml comment create report.md
 
 update-branch:
