@@ -74,6 +74,9 @@ Git (for downloading code)
 Step 1: Get the Code
 
 Step 2: Start Everything
+  ## Apache Kafka
+  ## Airflow Docker-compose (Airflow + MLFlow)
+  ## Ngrok + Backend
 
 Step 3: Use the App
 
@@ -104,13 +107,13 @@ The project automatically:
 
 # 📊 How Good Are the AI Models?
 
-Car Recognition (ConvNeXTv2)
+## Car Recognition (ConvNeXTv2)
 
-Accuracy: 92.3% (gets it right 9 out of 10 times)
+Accuracy: 95 %
 
 Speed: Identifies cars in under 1 second
 
-Range Prediction (XGBoost)
+## Range Prediction (XGBoost)
 
 Average Error: ±15 miles
 
