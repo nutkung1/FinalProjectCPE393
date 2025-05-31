@@ -5,6 +5,8 @@ Slides: https://www.canva.com/design/DAGov1yV9Io/-zcjeiMGXPw5jMRL8jtWPQ/edit?utm
 
 Project Front End: https://finalprojectcpe393.streamlit.app/
 
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378432977603924099/image.png?ex=683c953f&is=683b43bf&hm=f274e36b7b835496dd6b3ce65931ccad664ac5104ad81d789cbd65779bcb358d&)
+
 # 🌟 What This Project Does
 📸 Car Recognition: Upload a photo of an electric car and get the make/model
 
@@ -74,9 +76,9 @@ Git (for downloading code)
 Step 1: Get the Code
 
 Step 2: Start Everything
-  ## Apache Kafka
-  ## Airflow Docker-compose (Airflow + MLFlow)
-  ## Ngrok + Backend
+  Apache Kafka
+  Airflow Docker-compose (Airflow + MLFlow)
+  Ngrok + Backend
 
 Step 3: Use the App
 
