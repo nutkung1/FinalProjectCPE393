@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/2ccf4eac-4682-43d0-8376-5e06a5e14516)![image](https://github.com/user-attachments/assets/cfdd064b-b502-4b08-9840-16c6a04cd83e)![image](https://github.com/user-attachments/assets/402b7d36-9877-436b-89ba-ff4176d27099)# 🚗⚡ Electric Vehicle Analysis MLOps Platform
+# 🚗⚡ Electric Vehicle Analysis MLOps Platform
 A simple machine learning project that can identify electric cars from photos and predict their driving range. Built with modern MLOps practices for easy deployment and maintenance.
 
 Slides: https://www.canva.com/design/DAGov1yV9Io/-zcjeiMGXPw5jMRL8jtWPQ/edit?utm_content=DAGov1yV9Io&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
