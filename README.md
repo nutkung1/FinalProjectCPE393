@@ -12,6 +12,8 @@ Project Front End: https://finalprojectcpe393.streamlit.app/
 
 🖥️ Easy Web Interface: Simple web app to use both features
 
+🤖 Real-Time Data Ingsetion with Apache kafka and AWS RDS
+
 🤖 Automated Everything: Automatic testing, building, and deployment
 
 # 🏗️ How It Works (Simple Version)
@@ -22,6 +24,8 @@ Web Interface: Where users interact (like a website)
 API Server: Handles requests and runs AI models
 
 AI Models: One recognizes cars, one predicts range
+
+Kafka: real-time data ingestion
 
 Database: Stores car data
 
