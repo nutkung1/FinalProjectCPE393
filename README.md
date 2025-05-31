@@ -113,6 +113,12 @@ The project automatically:
 
 ✅ Reports any problems immediately
 
+# 🏗️ Apache Airflow and MLFlow
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378437006950137936/image.png?ex=683c9900&is=683b4780&hm=e660b7075d641600bf1fed42392c8f6961becda06733ba0c89841a720b1bf316&)
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378437073903554661/image.png?ex=683c9910&is=683b4790&hm=f68047625cc0cc40055f50260546d7ce3d47e3b25ec161baa564216441bbe45f&)
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378437126357647390/image.png?ex=683c991d&is=683b479d&hm=c55c33a7f24d5b79946c670fe667bf2d86e74e4362df5cfcae5221c6e6a727bd&)
+
+
 # 📊 How Good Are the AI Models?
 
 ## Car Recognition (ConvNeXTv2)
