@@ -5,6 +5,9 @@ Slides: https://www.canva.com/design/DAGov1yV9Io/-zcjeiMGXPw5jMRL8jtWPQ/edit?utm
 
 Project Front End: https://finalprojectcpe393.streamlit.app/
 
+# 🔍 Project Overview,
+This MLOps platform combines computer vision and predictive modeling to analyze electric vehicles. Built with a modern tech stack including Streamlit, Apache Kafka, AWS RDS, and containerized with Docker, it demonstrates end-to-end machine learning operations from data ingestion to model deployment. The system features continuous integration/deployment through GitHub Actions and monitors performance with MLflow, making it both a practical tool and a showcase of MLOps best practices.
+
 ![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378432977603924099/image.png?ex=683c953f&is=683b43bf&hm=f274e36b7b835496dd6b3ce65931ccad664ac5104ad81d789cbd65779bcb358d&)
 
 # 🌟 What This Project Does
