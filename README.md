@@ -88,7 +88,7 @@ Step 2: Start Everything
 
 Step 3: Use the App
 
-Open your browser to http://localhost:8501
+Open your browser to http://localhost:8501 or https://finalprojectcpe393.streamlit.app/
 
 Upload a car photo or enter car details
 
