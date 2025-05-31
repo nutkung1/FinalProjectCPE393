@@ -1,4 +1,4 @@
-# 🚗⚡ Electric Vehicle Analysis MLOps Platform
+![image](https://github.com/user-attachments/assets/2ccf4eac-4682-43d0-8376-5e06a5e14516)![image](https://github.com/user-attachments/assets/cfdd064b-b502-4b08-9840-16c6a04cd83e)![image](https://github.com/user-attachments/assets/402b7d36-9877-436b-89ba-ff4176d27099)# 🚗⚡ Electric Vehicle Analysis MLOps Platform
 A simple machine learning project that can identify electric cars from photos and predict their driving range. Built with modern MLOps practices for easy deployment and maintenance.
 
 Slides: https://www.canva.com/design/DAGov1yV9Io/-zcjeiMGXPw5jMRL8jtWPQ/edit?utm_content=DAGov1yV9Io&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
@@ -66,6 +66,9 @@ Automation: Keeps everything running smoothly
 
 └── kafka/                   # Real-time data processing (advanced)
 
+# Real-Time Data Ingestion
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378434866902994964/image.png?ex=683c9702&is=683b4582&hm=f84c78ce2c08d17926b7382de790294d72ee6ba746682a28528ecc9360266e73&)
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378434691752788111/image.png?ex=683c96d8&is=683b4558&hm=ddb35ebe016347c1449347843ae9d3d0774b90077b24c402cfa6343dfb8afb0a&)
 # 🚀 Getting Started (Easy Way)
 What You Need
 
@@ -114,12 +117,21 @@ The project automatically:
 Accuracy: 95 %
 
 Speed: Identifies cars in under 1 second
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378433662588162150/image.png?ex=683c95e3&is=683b4463&hm=3836b21242a03fcc63de709c2f50f5b4dee95044fa206d1a39c64124553bb99a&)
 
 ## Range Prediction (XGBoost)
 
 Average Error: ±15 miles
 
 Reliability: Works for 95% of electric vehicles
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378433791277797456/image.png?ex=683c9601&is=683b4481&hm=cd0ad17a04b0626f775a9641d834a8b6e84c4b071f3c1b25fc5ea8c26500698a&)
+
+## Residual MLP
+
+MAE: 0.54
+
+MSE: 5.19
+![alt text](https://cdn.discordapp.com/attachments/1328192999238271027/1378433719630565406/image.png?ex=683c95f0&is=683b4470&hm=76f80c0fca4a085bcc8463057ae8d66f72e2c6c9b1eb6252917631eeca3e1c90&)
 
 # 🔄 Automatic Operations (MLOps Magic)
 What Happens When You Update Code:
