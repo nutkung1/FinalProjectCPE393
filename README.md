@@ -80,28 +80,28 @@ Docker (software that packages applications)
 Git (for downloading code)
 
 Step 1: Clone the repository:
-   ```bash
-   git clone https://github.com/nutkung1/FinalProjectCPE393.git
-   cd FinalProjectCPE393
-   ```
+```bash
+git clone https://github.com/nutkung1/FinalProjectCPE393.git
+cd FinalProjectCPE393
+```
 
 Step 2: Start Everything
-  Apache Kafka
-   ```bash
-     cd kafka
-     docker-compose start -f docker-compose.kafka.yaml
-   ```
-  Airflow Docker-compose (Airflow + MLFlow)
-   ```bash
-     docker-compose start -f docker-compose.airflow.yaml
-   ```
-  BackEnd
-  ```bash
-      python model_server.py
-  ```
-  ```bash
-      ngrok 8000
-  ```
+Apache Kafka
+```bash
+  cd kafka
+  docker-compose start -f docker-compose.kafka.yaml up
+```
+Airflow Docker-compose (Airflow + MLFlow)
+```bash
+  docker-compose start -f docker-compose.airflow.yaml up
+```
+BackEnd
+```bash
+   python model_server.py
+```
+```bash
+   ngrok 8000
+```
 
 Step 3: Use the App
 
