@@ -87,21 +87,21 @@ Step 1: Clone the repository:
 
 Step 2: Start Everything
   Apache Kafka
-   ```bash
-     cd kafka
-     docker-compose start -f docker-compose.kafka.yaml
-   ```
-  Airflow Docker-compose (Airflow + MLFlow)
-   ```bash
-     docker-compose start -f docker-compose.airflow.yaml
-   ```
-  BackEnd
-  ```bash
-      python model_server.py
-  ```
-  ```bash
-      ngrok 8000
-  ```
+```bash
+cd kafka
+docker-compose start -f docker-compose.kafka.yaml
+```
+Airflow Docker-compose (Airflow + MLFlow)
+```bash
+docker-compose start -f docker-compose.airflow.yaml
+```
+BackEnd
+```bash
+python model_server.py
+```
+```bash
+ngrok 8000
+```
 
 Step 3: Use the App
 
