@@ -84,8 +84,12 @@ Step 1: Clone the repository:
 git clone https://github.com/nutkung1/FinalProjectCPE393.git
 cd FinalProjectCPE393
 ```
+Step 2: Download Library
+```bash
+pip install -r requirements.txt
+```
 
-Step 2: Start Everything
+Step 3: Start Everything
 Apache Kafka
 ```bash
   cd kafka
@@ -103,7 +107,7 @@ BackEnd
    ngrok 8000
 ```
 
-Step 3: Use the App
+Step 4: Use the App
 
 Open your browser to http://localhost:8501 or https://finalprojectcpe393.streamlit.app/
 
