@@ -3,6 +3,8 @@ A simple machine learning project that can identify electric cars from photos an
 
 Slides: https://www.canva.com/design/DAGov1yV9Io/-zcjeiMGXPw5jMRL8jtWPQ/edit?utm_content=DAGov1yV9Io&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
+Reports: https://docs.google.com/document/d/17qlmMI8Ot_4nT88Cjn9gaF8pYKDIK8VX0XQatznHP2U/edit?usp=sharing
+
 Project Front End: https://finalprojectcpe393.streamlit.app/
 
 # 🔍 Project Overview,
